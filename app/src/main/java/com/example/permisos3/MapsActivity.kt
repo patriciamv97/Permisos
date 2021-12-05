@@ -39,6 +39,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
      */
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
+        //Hago visible los botones para apliar y desampliar el mapa
+        mMap.uiSettings.isZoomControlsEnabled=true
         createMarker()
     }
     private fun createMarker() {
