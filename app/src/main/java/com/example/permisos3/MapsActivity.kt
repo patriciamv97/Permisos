@@ -3,6 +3,7 @@ package com.example.permisos3
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
+import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -17,7 +18,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.example.permisos3.databinding.ActivityMapsBinding
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
+class MapsActivity : AppCompatActivity(), OnMapReadyCallback ,GoogleMap.OnMyLocationButtonClickListener, GoogleMap.OnMyLocationClickListener {
 
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
@@ -52,6 +53,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         //Hago visible los botones para apliar y desampliar el mapa
         mMap.uiSettings.isZoomControlsEnabled = true
         createMarker()
+        mMap.setOnMyLocationButtonClickListener(this)
+        mMap.setOnMyLocationClickListener(this)
+        //Cuando se  ha cargado el mapa le decimos que activa la localización
+        enableLocation()
     }
 
     private fun createMarker() {
@@ -156,6 +161,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         }
     }
+    /**
+     * Método que sirve para que cuando el usuario pulse el botón OnMyLocation
+     * le lleve a la ubicación
+     */
+    override fun onMyLocationButtonClick(): Boolean {
+        Toast.makeText(this, "Boton pulsado", Toast.LENGTH_SHORT).show()
+        return false
+    }
 
-
+    /**
+     * Método que muestra la latitud y longitud de nuestra ubicación cuando pulsamos sobre ella
+     */
+    override fun onMyLocationClick(p0: Location) {
+        Toast.makeText(this, "Estás en ${p0.latitude},${p0.longitude} ", Toast.LENGTH_SHORT).show()
+    }
 }
