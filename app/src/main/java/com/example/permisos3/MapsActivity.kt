@@ -1,6 +1,7 @@
 package com.example.permisos3
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -43,9 +44,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         //Hago visible los botones para apliar y desampliar el mapa
-        mMap.uiSettings.isZoomControlsEnabled=true
+        mMap.uiSettings.isZoomControlsEnabled = true
         createMarker()
     }
+
     private fun createMarker() {
         val vigo = LatLng(42.23282, -8.72264)
         mMap.addMarker(MarkerOptions().position(vigo).title("Vigo"))
@@ -55,6 +57,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             null
         )
     }
+
     /**
      * Método que comprueba que el permiso este activado, pidiendo el permiso y viendo si es igual a el PERMISSION_GRANTED
      */
@@ -64,5 +67,26 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     ) == PackageManager.PERMISSION_GRANTED
 
 
+    //SupressLint es una interfaz que indica que se deben ignoar las advertencias especificadas
 
+    /**
+     * Método que intenta activar la localización
+     */
+    @SuppressLint("MissingPermission")
+    private fun enableLocation() {
+        //Si el mapa no está inicializado vete
+        if (!::mMap.isInitialized) return
+        if (isLocationPermissionGranted()) {
+            //si  ha aceptado los permisos permitimos la localización
+            mMap.isMyLocationEnabled = true
+        } else {
+            //no está activado el permiso , se lo tenemos que pedir a través
+            // del siguiente método
+            requestLocationPermission()
+        }
+    }
+
+    private fun requestLocationPermission() {
+        TODO("Not yet implemented")
+    }
 }
