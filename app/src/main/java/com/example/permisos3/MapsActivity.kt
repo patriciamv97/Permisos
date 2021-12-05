@@ -142,5 +142,20 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         }
     }
+    /**
+     * Método que sirve para comprobar si los permisos siguen activos caundo el usuario
+     * se va de la aplicación y vuelve para que la aplicación no rompa
+     */
+    override fun onResumeFragments() {
+        super.onResumeFragments()
+        if (!::mMap.isInitialized) return
+        if (!isLocationPermissionGranted()) {
+            !mMap.isMyLocationEnabled
+            Toast.makeText(this, "Ve a ajustes y acepta los permisos", Toast.LENGTH_SHORT).show()
+
+
+        }
+    }
+
 
 }
