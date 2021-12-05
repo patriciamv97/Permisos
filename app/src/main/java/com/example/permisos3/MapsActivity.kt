@@ -114,4 +114,33 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             )
         }
     }
+
+    /**
+     * Método que captura la respuesta del usuario si acepta los permisos
+     */
+    @SuppressLint("MissingSuperCall", "MissingPermission")
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        // cuando el requestcode se igual al companion object definido
+        when (requestCode) {
+            // Si grantResults no está vacio y el permiso 0 está aceptado signfica que ha acptado nuestros permisos
+            REQUEST_CODE_LOCATION -> if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                mMap.isMyLocationEnabled = true
+            } else {
+                Toast.makeText(
+                    this,
+                    "Para activar la localización ve a ajustes y acepta los permisos",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+            }
+            //Por si ha aceptado otro permiso
+            else -> {
+            }
+        }
+    }
+
 }
